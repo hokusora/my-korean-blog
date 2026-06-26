@@ -1,22 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ArticleDetail from "./pages/ArticleDetail";
+import CategoryPage from "./pages/CategoryPage";
 import Header from "./components/Header";
 
 // ============================================================
-// APP — Router + layout shell. Logic UNCHANGED.
-// Header used only for the article detail route;
-// Home renders its own Navbar + footer internally.
+// APP — Router + layout shell.
+// Home và CategoryPage tự render Navbar + footer bên trong.
+// Header dùng riêng cho article detail route.
 // ============================================================
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Home page renders its own Navbar and footer */}
+        {/* Home page tự có Navbar và footer */}
         <Route path="/" element={<Home />} />
 
-        {/* Article detail: uses the shared Header + a clean reading shell */}
+        {/* Category page: /category/korean, /category/japanese, v.v. */}
+        <Route path="/category/:categorySlug" element={<CategoryPage />} />
+
+        {/* Article detail: dùng Header + reading shell */}
         <Route
           path="/post/:slug"
           element={
@@ -31,7 +35,8 @@ function App() {
                                 flex flex-col sm:flex-row justify-between items-center gap-4"
                 >
                   <p className="text-xs text-ink-500">
-                    © {new Date().getFullYear()} Hoku Sol. Crafted with care.
+                    © {new Date().getFullYear()} Sol&rsquo;s Korean. Crafted
+                    with care.
                   </p>
                   <div className="flex gap-5 text-xs text-ink-500">
                     <a

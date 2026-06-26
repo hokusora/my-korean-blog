@@ -3,23 +3,29 @@ import { Link } from "react-router-dom";
 // ============================================================
 // POST CARD — Editorial layout card.
 // Data bindings: article.fields.title, slug, excerpt,
-//                coverImage, tags — ALL UNCHANGED.
+//                coverImage, tags, category — ALL WIRED UP.
 // ============================================================
 
 // Rotate through badge variants for visual rhythm
 const BADGE_VARIANTS = ["badge-mint", "badge-blush", "badge-neutral"];
 
 export default function PostCard({ article, index = 0 }) {
-  // ── Original data extraction — UNCHANGED ──
   const { title, slug, excerpt, coverImage, tags } = article.fields;
 
-  // Original image URL logic — UNCHANGED
+  // Image URL
   const imageUrl = coverImage?.fields?.file?.url || "";
 
-  // Original category logic — UNCHANGED
-  const category = tags && tags.length > 0 ? tags[0] : "VOCAB | CULTURE";
+  // Lấy category từ linked entry (References field), fallback về tags
+  const categoryEntry = article.fields.category;
+  const categoryData = Array.isArray(categoryEntry)
+    ? categoryEntry[0]
+    : categoryEntry;
+  const categoryName =
+    categoryData?.fields?.title ||
+    (tags && tags.length > 0 ? tags[0] : "VOCAB | CULTURE");
+  const categorySlug = categoryData?.fields?.slug || null;
 
-  // Pick badge colour by card index for visual variety
+  // Badge colour
   const badgeClass = BADGE_VARIANTS[index % BADGE_VARIANTS.length];
 
   return (
@@ -39,9 +45,21 @@ export default function PostCard({ article, index = 0 }) {
         </div>
       )}
 
-      {/* ── Badge ── */}
+      {/* ── Category badge ── */}
       <div className="mb-3">
-        <span className={badgeClass}>{category}</span>
+        {categorySlug ? (
+          // Có slug → badge là link đến trang category
+          <Link
+            to={`/category/${categorySlug}`}
+            className={`${badgeClass} hover:opacity-75 transition-opacity duration-200`}
+            onClick={(e) => e.stopPropagation()} // Không trigger Link bọc ngoài
+          >
+            {categoryName}
+          </Link>
+        ) : (
+          // Không có slug → badge tĩnh
+          <span className={badgeClass}>{categoryName}</span>
+        )}
       </div>
 
       {/* ── Title (serif) ── */}
