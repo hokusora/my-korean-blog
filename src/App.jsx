@@ -1,23 +1,58 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import ArticleDetail from './pages/ArticleDetail';
-import Header from './components/Header';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import ArticleDetail from "./pages/ArticleDetail";
+import Header from "./components/Header";
+
+// ============================================================
+// APP — Router + layout shell. Logic UNCHANGED.
+// Header used only for the article detail route;
+// Home renders its own Navbar + footer internally.
+// ============================================================
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col font-sans">
-        <Header />
-        <main className="flex-grow container mx-auto px-5 py-8 max-w-5xl">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/post/:slug" element={<ArticleDetail />} />
-          </Routes>
-        </main>
-        <footer className="text-center py-8 text-slate-400 text-sm border-t border-slate-200 mt-auto bg-white">
-          <p>© {new Date().getFullYear()} DevBlog. Designed with React & Tailwind.</p>
-        </footer>
-      </div>
+      <Routes>
+        {/* Home page renders its own Navbar and footer */}
+        <Route path="/" element={<Home />} />
+
+        {/* Article detail: uses the shared Header + a clean reading shell */}
+        <Route
+          path="/post/:slug"
+          element={
+            <div className="min-h-screen flex flex-col bg-cream font-sans">
+              <Header />
+              <main className="flex-grow container mx-auto px-5 sm:px-8 py-10 max-w-5xl">
+                <ArticleDetail />
+              </main>
+              <footer className="border-t border-ink-300/50 bg-cream-dark">
+                <div
+                  className="max-w-5xl mx-auto px-5 sm:px-8 py-8
+                                flex flex-col sm:flex-row justify-between items-center gap-4"
+                >
+                  <p className="text-xs text-ink-500">
+                    © {new Date().getFullYear()} Hoku Sol. Crafted with care.
+                  </p>
+                  <div className="flex gap-5 text-xs text-ink-500">
+                    <a
+                      href="#"
+                      className="hover:text-ink-900 transition-colors underline-grow"
+                    >
+                      Privacy
+                    </a>
+                    <a
+                      href="#"
+                      className="hover:text-ink-900 transition-colors underline-grow"
+                    >
+                      Contact
+                    </a>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

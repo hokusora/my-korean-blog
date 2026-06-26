@@ -1,11 +1,20 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getArticles } from '../services/contentful';
+import { useEffect, useState } from "react";
+import { getArticles } from "../services/contentful"; // Import hàm gốc của bồ
+import Navbar from "../components/Navbar";
+import PostCard from "../components/PostCard";
 
-const Home = () => {
+// ============================================================
+// HOME PAGE — Editorial Korean blog layout.
+// All state hooks, useEffect, API calls — UNCHANGED.
+// Only JSX structure and Tailwind classes are updated.
+// ============================================================
+
+export default function Home() {
+  // ── Original state & logic — UNCHANGED ──
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // GIỮ NGUYÊN LOGIC FETCH DATA TỪ CONTENTFUL
   useEffect(() => {
     const fetchArticles = async () => {
       const data = await getArticles();
@@ -15,71 +24,205 @@ const Home = () => {
     fetchArticles();
   }, []);
 
+  // ── Loading skeleton ──
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="min-h-screen bg-cream flex flex-col">
+        <Navbar />
+        <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16 md:py-24">
+          {/* Skeleton header */}
+          <div className="mb-16 space-y-4">
+            <div className="h-3 w-40 bg-ink-300/40 rounded-full animate-pulse" />
+            <div className="h-10 w-72 bg-ink-300/40 rounded-xl animate-pulse" />
+            <div className="h-4 w-96 bg-ink-300/30 rounded-full animate-pulse mt-2" />
+          </div>
+          {/* Skeleton grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="flex flex-col gap-4 animate-pulse">
+                <div className="aspect-[4/3] rounded-2xl bg-ink-300/30" />
+                <div className="h-3 w-20 bg-ink-300/30 rounded-full" />
+                <div className="h-5 w-3/4 bg-ink-300/40 rounded-lg" />
+                <div className="h-3 w-full bg-ink-300/20 rounded-full" />
+                <div className="h-3 w-4/5 bg-ink-300/20 rounded-full" />
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     );
   }
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className="py-16 mb-8 text-center border-b border-slate-200 pb-16">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-          Thoughts, stories and ideas.
-        </h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-          A minimalist space dedicated to frontend development, system architecture, and clean code.
-        </p>
-      </section>
+    <div className="min-h-screen bg-cream font-sans flex flex-col">
+      <Navbar />
 
-      {/* Blog Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
-        {articles.map((article) => {
-          const { title, slug, excerpt, coverImage, tags, date } = article.fields;
-          const imageUrl = coverImage?.fields?.file?.url;
-          const displayDate = new Date(date || article.sys.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 md:py-20">
+        {/* ── Category hero header ── */}
+        <header className="mb-16 md:mb-20">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 mb-5">
+            <span className="text-[10px] font-semibold tracking-ultra-wide text-ink-500 uppercase">
+              Home
+            </span>
+            <span className="text-ink-300 text-xs">›</span>
+            <span className="text-[10px] font-semibold tracking-ultra-wide text-ink-500 uppercase">
+              Vocab
+            </span>
+            <span className="text-ink-300 text-xs">›</span>
+            <span className="text-[10px] font-semibold tracking-ultra-wide text-mint-600 uppercase">
+              Culture
+            </span>
+          </div>
 
-          return (
-            <Link to={`/post/${slug}`} key={article.sys.id} className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300">
-              {imageUrl && (
-                <div className="h-48 overflow-hidden bg-slate-100">
-                  <img 
-                    src={imageUrl} 
-                    alt={title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              )}
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-1 rounded">
-                    {tags ? tags[0] : 'Blog'}
-                  </span>
-                  <span className="text-slate-300 text-xs">•</span>
-                  <span className="text-slate-500 text-xs font-medium">{displayDate}</span>
-                </div>
-                <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-indigo-600 transition-colors leading-tight">
-                  {title}
-                </h2>
-                <p className="text-slate-600 text-sm line-clamp-3 mb-6 flex-grow leading-relaxed">
-                  {excerpt}
-                </p>
-                <div className="mt-auto flex items-center text-indigo-500 text-sm font-semibold">
-                  Read article
-                  <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+          {/* Title row — editorial large serif */}
+          <div
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-4
+                          border-b border-ink-300/60 pb-8"
+          >
+            <div>
+              <h1
+                className="font-serif text-[2.5rem] md:text-[3.25rem] font-bold text-ink-900
+                             tracking-tight leading-[1.1]"
+              >
+                Culture{" "}
+                <span className="font-normal italic text-mint-600">
+                  &amp; Others
+                </span>
+                <span className="ml-3 text-3xl">🎎</span>
+              </h1>
+              <p className="mt-4 text-base text-ink-500 leading-relaxed max-w-lg">
+                Dive into the heart of South Korea. Explore traditions, modern
+                lifestyle, and everything in between.
+              </p>
+            </div>
+
+            {/* Article count badge */}
+            <div className="flex-shrink-0">
+              <span className="badge-mint text-xs px-4 py-2 rounded-full">
+                {articles.length} Articles
+              </span>
+            </div>
+          </div>
+        </header>
+
+        {/* ── Post grid — REAL DATA unchanged ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
+          {articles.map((article, index) => (
+            <PostCard key={article.sys.id} article={article} index={index} />
+          ))}
+        </div>
+
+        {/* ── Pagination ── */}
+        <div className="mt-24 flex justify-center items-center gap-1">
+          {/* Prev */}
+          <button
+            aria-label="Previous page"
+            className="w-10 h-10 flex items-center justify-center rounded-full text-ink-400
+                       hover:bg-mint-100 hover:text-mint-700 transition-all duration-200"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          {/* Page 1 — active */}
+          <button
+            aria-current="page"
+            className="w-10 h-10 flex items-center justify-center rounded-full
+                       bg-ink-900 text-cream text-sm font-semibold font-sans"
+          >
+            1
+          </button>
+
+          {/* Page 2 */}
+          <button
+            className="w-10 h-10 flex items-center justify-center rounded-full text-sm font-medium
+                       text-ink-600 hover:bg-mint-100 hover:text-mint-700 transition-all duration-200"
+          >
+            2
+          </button>
+
+          {/* Page 3 */}
+          <button
+            className="w-10 h-10 flex items-center justify-center rounded-full text-sm font-medium
+                       text-ink-600 hover:bg-mint-100 hover:text-mint-700 transition-all duration-200"
+          >
+            3
+          </button>
+
+          {/* Next */}
+          <button
+            aria-label="Next page"
+            className="w-10 h-10 flex items-center justify-center rounded-full text-ink-700
+                       hover:bg-mint-100 hover:text-mint-700 transition-all duration-200"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </div>
+      </main>
+
+      {/* ── Footer ── */}
+      <footer className="border-t border-ink-300/50 bg-cream-dark mt-16">
+        <div
+          className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12
+                        flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          {/* Brand */}
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-mint-500" />
+            <span className="font-serif text-base font-bold text-ink-900 tracking-tight"></span>
+          </div>
+
+          <p className="text-xs text-ink-500 order-last md:order-none">
+            © {new Date().getFullYear()} Hoku Sol. All rights reserved.
+          </p>
+
+          {/* Footer links */}
+          <div className="flex gap-6 text-xs text-ink-500">
+            <a
+              href="#"
+              className="hover:text-ink-900 transition-colors underline-grow"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="#"
+              className="hover:text-ink-900 transition-colors underline-grow"
+            >
+              Terms
+            </a>
+            <a
+              href="#"
+              className="hover:text-ink-900 transition-colors underline-grow"
+            >
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
-};
-
-export default Home;
+}
