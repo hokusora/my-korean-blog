@@ -37,16 +37,25 @@ export const getArticleBySlug = async (slug) => {
   }
 };
 
-// Lấy bài theo category slug — dùng cho trang /category/:categorySlug
+// Lấy bài theo category slug — filter phía client vì CDA không hỗ trợ
+// query linked-entry field trực tiếp ("fields.category.fields.slug")
 export const getArticlesByCategory = async (categorySlug) => {
   try {
     const entries = await client.getEntries({
       content_type: "koreanBlog",
-      "fields.category.fields.slug": categorySlug,
       order: "-sys.createdAt",
       include: 2,
     });
-    return entries.items;
+
+    // Filter: giữ lại bài có category.fields.slug khớp
+    return entries.items.filter((item) => {
+      const cat = item.fields.category;
+      // category có thể là array (multi-ref) hoặc single ref
+      if (Array.isArray(cat)) {
+        return cat.some((c) => c?.fields?.slug === categorySlug);
+      }
+      return cat?.fields?.slug === categorySlug;
+    });
   } catch (error) {
     console.error("Error fetching articles by category:", error);
     return [];

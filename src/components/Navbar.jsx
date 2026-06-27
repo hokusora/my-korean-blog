@@ -44,7 +44,7 @@ export default function Navbar() {
                 <Link
                   key={cat.sys.id}
                   to={`/category/${slug}`}
-                  className="text-sm font-medium transition-colors hover:text-mint-600 font-['HakgyoNal'] text-[#e46e7a]"
+                  className="text-[24px] font-medium transition-colors hover:text-[#7b6dff] font-['HakgyoNal'] text-[#e46e7a]"
                 >
                   {title}
                 </Link>

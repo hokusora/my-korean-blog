@@ -23,7 +23,7 @@ export default function PostCard({ article, index = 0 }) {
     : categoryEntry;
   const categoryName =
     categoryData?.fields?.title ||
-    (tags && tags.length > 0 ? tags[0] : "VOCAB | CULTURE");
+    (tags && tags.length > 0 ? tags[0] : "VOCAB | JEONJA");
   const categorySlug = categoryData?.fields?.slug || null;
 
   // Pick badge colour by card index for visual variety
@@ -64,15 +64,13 @@ export default function PostCard({ article, index = 0 }) {
       </div>
 
       {/* ── Title (serif) ── */}
-      <h2
-        className="font-serif text-xl md:text-[1.375rem] font-bold text-ink-900 leading-snug mb-3
-                     group-hover:text-mint-600 transition-colors duration-300"
-      >
+      <h2  className="font-['MomoSignature'] text-[18px] md:text-[24px] font-bold text-[#9370db] leading-snug mb-3
+               group-hover:text-mint-600 transition-colors duration-300">
         {title}
       </h2>
 
       {/* ── Excerpt ── */}
-      <p className="text-sm text-ink-500 leading-relaxed line-clamp-2 mb-5 flex-grow">
+      <p className="font-['Angel']  text-[12px] md:text-[14px] text-[#191970] ">
         {excerpt}
       </p>
 

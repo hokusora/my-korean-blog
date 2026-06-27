@@ -27,7 +27,7 @@ export default function Home() {
   // ── Loading skeleton ──
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream flex flex-col">
+      <div className="min-h-screen bg-blog-gradient flex flex-col">
         <Navbar />
         <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16 md:py-24">
           {/* Skeleton header */}
@@ -54,7 +54,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-cream font-sans flex flex-col">
+    <div className="min-h-screen bg-blog-gradient font-sans flex flex-col">
       <Navbar />
 
       <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 md:py-20">
@@ -67,11 +67,11 @@ export default function Home() {
             </span>
             <span className="text-ink-300 text-xs">›</span>
             <span className="text-[10px] font-semibold tracking-ultra-wide text-ink-500 uppercase">
-              Vocab
+              Hangug
             </span>
             <span className="text-ink-300 text-xs">›</span>
             <span className="text-[10px] font-semibold tracking-ultra-wide text-mint-600 uppercase">
-              Culture
+              Jeonja
             </span>
           </div>
 
@@ -206,13 +206,13 @@ export default function Home() {
               href="#"
               className="hover:text-ink-900 transition-colors underline-grow"
             >
-              Privacy Policy
+              About
             </a>
             <a
               href="#"
               className="hover:text-ink-900 transition-colors underline-grow"
             >
-              Terms
+              Vision
             </a>
             <a
               href="#"

@@ -25,7 +25,7 @@ function App() {
         <Route
           path="/:categorySlug/:slug"
           element={
-            <div className="min-h-screen flex flex-col bg-cream font-sans">
+            <div className="min-h-screen bg-blog-gradient text-ink-700 font-sans">
               <Header />
               <main className="flex-grow container mx-auto px-5 sm:px-8 py-10 max-w-5xl">
                 <ArticleDetail />

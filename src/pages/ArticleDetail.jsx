@@ -9,7 +9,7 @@ const renderOptions = {
   renderNode: {
     // Paragraph
     [BLOCKS.PARAGRAPH]: (node, children) => (
-      <p className="mb-6 leading-[1.85] text-[1.0625rem] text-[#d98079] font-['Angel']">
+      <p className="mb-6 leading-[1.85] text-[2.5rem] text-[#d98079] font-['Angel']">
         {/* đã đổi màu hex #d98079 và thêm font Angel */}
         {children}
       </p>
@@ -185,9 +185,9 @@ const ArticleDetail = () => {
 
         {/* Title — large serif */}
         <h1
-          // Đã cấu hình sang màu hex #5f4ff0 và font Monday
-          className="font-['Monday'] text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]
-           font-bold text-[#5f4ff0] tracking-tight leading-[1.15] mb-0"
+          // Đã cấu hình sang màu hex #7b6dff và font Monday
+          className="font-['MomoSignature'] text-[2rem] md:text-[1.75rem] lg:text-[4.25rem]
+ font-bold text-[#7b6dff] tracking-tight leading-[1.15] mb-0"
         >
           {title}
         </h1>

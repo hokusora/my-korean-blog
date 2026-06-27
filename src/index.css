@@ -8,6 +8,14 @@
 }
 
 @font-face {
+  font-family: "MomoSignature";
+  src: url("./assets/fonts/MomoSignature.ttf") format("truetype");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "HakgyoNal";
   src: url("./assets/fonts/Hakgyoansim_Nalgae.otf") format("opentype");
   font-weight: 300 700;
@@ -115,9 +123,9 @@
            bg-ink-100 text-ink-500 rounded-full;
   }
 
-  /* ---- Rich text article body ---- */
+  /* edit size font color body content */
   .article-body p {
-    @apply text-[1.0625rem] leading-[1.875] mb-6;
+    @apply text-[1.25rem] leading-[1.875] mb-6;
     font-family: "Angel", sans-serif;
     color: #d98079;
   }
