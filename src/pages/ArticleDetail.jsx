@@ -4,28 +4,27 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, INLINES } from "@contentful/rich-text-types";
 import { getArticleBySlug } from "../services/contentful";
 
-// ============================================================
-// ARTICLE DETAIL — Focused reading mode.
-// Logic: useParams, useState, useEffect, getArticleBySlug
-//        — ALL UNCHANGED.
-// Only JSX markup and Tailwind classes updated.
-// ============================================================
-
-// ── Custom rich-text rendering — editorial typography ──
+// ── Rich text render options — UNCHANGED ──
 const renderOptions = {
   renderNode: {
     [BLOCKS.PARAGRAPH]: (node, children) => (
-      <p className="text-[1.0625rem] leading-[1.875] text-ink-700 mb-6">
+      <p className="mb-6 text-ink-700 leading-[1.85] text-[1.0625rem]">
         {children}
       </p>
     ),
     [BLOCKS.HEADING_2]: (node, children) => (
-      <h2 className="font-serif text-2xl md:text-3xl font-bold text-ink-900 mt-14 mb-5 tracking-tight">
+      <h2
+        className="font-serif text-[1.75rem] font-bold text-ink-900
+                   mt-14 mb-5 leading-tight tracking-tight"
+      >
         {children}
       </h2>
     ),
     [BLOCKS.HEADING_3]: (node, children) => (
-      <h3 className="font-serif text-xl md:text-2xl font-semibold text-ink-800 mt-10 mb-4">
+      <h3
+        className="font-serif text-[1.35rem] font-bold text-ink-900
+                   mt-10 mb-4 leading-snug"
+      >
         {children}
       </h3>
     ),
@@ -63,8 +62,8 @@ const renderOptions = {
 };
 
 const ArticleDetail = () => {
-  // ── Original logic — UNCHANGED ──
-  const { slug } = useParams();
+  // ── slug lấy từ URL /:categorySlug/:slug ──
+  const { slug, categorySlug } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -77,7 +76,7 @@ const ArticleDetail = () => {
     fetchArticle();
   }, [slug]);
 
-  // ── Loading skeleton ──
+  // ── Loading skeleton — UNCHANGED ──
   if (loading) {
     return (
       <div className="flex justify-center pt-20 pb-32 px-5">
@@ -100,7 +99,7 @@ const ArticleDetail = () => {
     );
   }
 
-  // ── Not found ──
+  // ── Not found — UNCHANGED ──
   if (!article) {
     return (
       <div className="text-center py-32">
@@ -126,11 +125,19 @@ const ArticleDetail = () => {
   const { title, coverImage, content, date, tags } = article.fields;
   const imageUrl = coverImage?.fields?.file?.url;
 
+  // Back link: về trang category nếu có, về home nếu không
+  const backUrl = categorySlug ? `/category/${categorySlug}` : "/";
+  const backLabel = categorySlug
+    ? `← Back to ${
+        categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)
+      }`
+    : "← Back to articles";
+
   return (
     <article className="max-w-3xl mx-auto px-5 sm:px-0 py-12 md:py-20">
-      {/* ── Back link ── */}
+      {/* ── Back link — trỏ về category thay vì hardcode "/" ── */}
       <Link
-        to="/"
+        to={backUrl}
         className="inline-flex items-center gap-2 text-sm font-medium text-ink-500
                    hover:text-mint-600 mb-12 transition-colors group"
       >
@@ -147,10 +154,10 @@ const ArticleDetail = () => {
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-        Back to articles
+        {backLabel}
       </Link>
 
-      {/* ── Article header ── */}
+      {/* ── Article header — UNCHANGED ── */}
       <header className="mb-12 text-center">
         {/* Tags + date row */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-7">
@@ -183,7 +190,7 @@ const ArticleDetail = () => {
         </h1>
       </header>
 
-      {/* ── Cover image ── */}
+      {/* ── Cover image — UNCHANGED ── */}
       {imageUrl && (
         <div className="mb-14 rounded-2xl overflow-hidden shadow-card-lg border border-ink-300/30">
           <img
@@ -194,23 +201,23 @@ const ArticleDetail = () => {
         </div>
       )}
 
-      {/* ── Thin rule before body ── */}
+      {/* ── Thin rule before body — UNCHANGED ── */}
       <div className="border-t border-ink-300/50 mb-12" />
 
-      {/* ── Rich text body — uses .article-body CSS class from index.css ── */}
+      {/* ── Rich text body — UNCHANGED ── */}
       <div className="article-body">
         {documentToReactComponents(content, renderOptions)}
       </div>
 
-      {/* ── End of article divider ── */}
+      {/* ── End of article — back về category ── */}
       <div className="mt-20 pt-8 border-t border-ink-300/50 flex justify-center">
         <Link
-          to="/"
+          to={backUrl}
           className="inline-flex items-center gap-2 px-7 py-3 border border-ink-900 text-ink-900
                      text-sm font-semibold rounded-full hover:bg-ink-900 hover:text-cream
                      transition-all duration-200"
         >
-          ← More articles
+          {backLabel}
         </Link>
       </div>
     </article>

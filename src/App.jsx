@@ -21,8 +21,9 @@ function App() {
         <Route path="/category/:categorySlug" element={<CategoryPage />} />
 
         {/* Article detail: dùng Header + reading shell */}
+        {/* CHỈ ĐỔI DÒNG NÀY: /post/:slug → /:categorySlug/:slug */}
         <Route
-          path="/post/:slug"
+          path="/:categorySlug/:slug"
           element={
             <div className="min-h-screen flex flex-col bg-cream font-sans">
               <Header />

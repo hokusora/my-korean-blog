@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 // ============================================================
 // POST CARD — Editorial layout card.
 // Data bindings: article.fields.title, slug, excerpt,
-//                coverImage, tags, category — ALL WIRED UP.
+//                coverImage, tags — ALL UNCHANGED.
 // ============================================================
 
 // Rotate through badge variants for visual rhythm
 const BADGE_VARIANTS = ["badge-mint", "badge-blush", "badge-neutral"];
 
 export default function PostCard({ article, index = 0 }) {
+  // ── Original data extraction — UNCHANGED ──
   const { title, slug, excerpt, coverImage, tags } = article.fields;
 
-  // Image URL
+  // Original image URL logic — UNCHANGED
   const imageUrl = coverImage?.fields?.file?.url || "";
 
   // Lấy category từ linked entry (References field), fallback về tags
@@ -25,14 +26,16 @@ export default function PostCard({ article, index = 0 }) {
     (tags && tags.length > 0 ? tags[0] : "VOCAB | CULTURE");
   const categorySlug = categoryData?.fields?.slug || null;
 
-  // Badge colour
+  // Pick badge colour by card index for visual variety
   const badgeClass = BADGE_VARIANTS[index % BADGE_VARIANTS.length];
 
+  // ── URL: /:categorySlug/:slug nếu có category, fallback /post/:slug ──
+  const articleUrl = categorySlug
+    ? `/${categorySlug}/${slug}`
+    : `/post/${slug}`;
+
   return (
-    <Link
-      to={`/post/${slug}`}
-      className="group flex flex-col cursor-pointer h-full"
-    >
+    <Link to={articleUrl} className="group flex flex-col cursor-pointer h-full">
       {/* ── Cover image ── */}
       {imageUrl && (
         <div className="card-img-wrapper aspect-[4/3] rounded-2xl bg-ink-100 mb-5 shadow-card overflow-hidden">
@@ -48,16 +51,14 @@ export default function PostCard({ article, index = 0 }) {
       {/* ── Category badge ── */}
       <div className="mb-3">
         {categorySlug ? (
-          // Có slug → badge là link đến trang category
           <Link
             to={`/category/${categorySlug}`}
             className={`${badgeClass} hover:opacity-75 transition-opacity duration-200`}
-            onClick={(e) => e.stopPropagation()} // Không trigger Link bọc ngoài
+            onClick={(e) => e.stopPropagation()}
           >
             {categoryName}
           </Link>
         ) : (
-          // Không có slug → badge tĩnh
           <span className={badgeClass}>{categoryName}</span>
         )}
       </div>
