@@ -36,7 +36,7 @@ function App() {
                                 flex flex-col sm:flex-row justify-between items-center gap-4"
                 >
                   <p className="text-xs text-ink-500">
-                    © {new Date().getFullYear()} Sol&rsquo;s Korean. Crafted
+                    © {new Date().getFullYear()} Hoku Sol. Crafted
                     with care.
                   </p>
                   <div className="flex gap-5 text-xs text-ink-500">

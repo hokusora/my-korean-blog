@@ -4,10 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-    
         // Backgrounds
-        cream: "#d502ff", // Warm off-white – main background
-        "cream-dark": "#f6d3a5", // Slightly deeper cream for section blocks
+        cream: "#f7d1fe", // Warm off-white – main background
+        "cream-dark": "#a9f9f2", // Slightly deeper cream for section blocks
 
         // Mint / Teal brand accent (Sol's Korean signature colour)
         mint: {
@@ -42,7 +41,8 @@ export default {
 
       // ── THÊM ĐOẠN NÀY NGAY DƯỚI HOẶC NGANG HÀNG VỚI COLORS ──
       backgroundImage: {
-        'blog-gradient': 'linear-gradient(to bottom right, #fff8dc, #ffc0db, #ffe3de)',
+        "blog-gradient":
+          "linear-gradient(to bottom right, #fff8dc, #ffc0db, #ffe3de)",
       },
 
       // ── Font families — tên khớp với @font-face trong index.css ──
