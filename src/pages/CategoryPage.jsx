@@ -31,9 +31,10 @@ export default function CategoryPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="flex flex-col gap-4 animate-pulse">
-                <div className="aspect-[4/3] rounded-2xl bg-ink-300/30" />
-                <div className="h-3 w-20 bg-ink-300/30 rounded-full" />
-                <div className="h-5 w-3/4 bg-ink-300/40 rounded-lg" />
+                <div className="aspect-[4/3] rounded-2xl bg-ink-300/20" />
+                <div className="h-4 bg-ink-300/20 rounded w-1/4" />
+                <div className="h-6 bg-ink-300/20 rounded w-3/4" />
+                <div className="h-4 bg-ink-300/20 rounded w-full" />
               </div>
             ))}
           </div>
@@ -43,30 +44,20 @@ export default function CategoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream font-sans flex flex-col">
+    <div className="min-h-screen bg-cream flex flex-col">
       <Navbar />
-      <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 md:py-20">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-5">
-          <Link
-            to="/"
-            className="text-[10px] font-semibold tracking-ultra-wide text-ink-500 uppercase hover:text-ink-900"
-          >
-            Home
-          </Link>
-          <span className="text-ink-300 text-xs">›</span>
-          <span className="text-[10px] font-semibold tracking-ultra-wide text-mint-600 uppercase">
-            {categoryLabel}
-          </span>
-        </div>
-
+      <main className="flex-grow w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16">
         {/* Header */}
-        <header className="mb-16 border-b border-ink-300/60 pb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-ink-300/40 pb-8 mb-12 gap-4">
           <div>
-            <h1 className="font-serif text-[2.5rem] md:text-[3.25rem] font-bold text-ink-900 tracking-tight leading-[1.1]">
+            <span className="text-xs font-semibold tracking-widest uppercase text-mint-600 block mb-2">
+              Category Archive
+            </span>
+            <h1 className="text-4xl md:text-[3.25rem] font-bold text-ink-900 tracking-tight leading-[1.1]">
               {categoryLabel}
             </h1>
-            <p className="mt-4 text-base text-ink-500 leading-relaxed max-w-lg">
+            {/* Đã chỉnh sửa dòng mô tả dưới đây: font Angel, màu hex #d98079 và tăng cỡ chữ lên 50% bằng class text-2xl */}
+            <p className="mt-4 text-2xl leading-relaxed max-w-lg font-['Angel'] text-[#d98079]">
               All articles in the <strong>{categoryLabel}</strong> category.
             </p>
           </div>
@@ -94,10 +85,10 @@ export default function CategoryPage() {
       <footer className="border-t border-ink-300/50 bg-cream-dark mt-16">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
           <span className="font-serif text-base font-bold text-ink-900">
-            Sol's Korean
+            Hoku Sol
           </span>
-          <p className="text-xs text-ink-500">
-            © {new Date().getFullYear()} Sol's Korean. All rights reserved.
+          <p className="text-sm text-ink-500 text-center md:text-right">
+            © {new Date().getFullYear()} Hoku Sol. All rights reserved.
           </p>
         </div>
       </footer>

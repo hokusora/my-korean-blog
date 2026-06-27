@@ -1,4 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap");
+/* ── Custom fonts từ file local ── */
+@font-face {
+  font-family: "Angel"; /* tên tùy đặt, dùng lại ở bước 3 */
+  src: url("./assets/fonts/ZFangelring.ttf") format("truetype");
+  font-weight: 400 900; /* nếu font có nhiều weight */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HakgyoNal";
+  src: url("./assets/fonts/Hakgyoansim_Nalgae.otf") format("opentype");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Nếu font có file riêng cho bold thì khai báo thêm: */
+@font-face {
+  font-family: "Monday";
+  src: url("./assets/fonts/Monday.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -16,7 +40,9 @@
   }
 
   body {
-    @apply bg-cream font-sans text-ink-700;
+    @apply bg-cream;
+    font-family: "Angel", sans-serif;
+    color: #d98079;
     font-feature-settings: "liga" 1, "kern" 1;
   }
 
@@ -91,7 +117,9 @@
 
   /* ---- Rich text article body ---- */
   .article-body p {
-    @apply text-[1.0625rem] leading-[1.875] text-ink-700 mb-6;
+    @apply text-[1.0625rem] leading-[1.875] mb-6;
+    font-family: "Angel", sans-serif;
+    color: #d98079;
   }
 
   .article-body h2 {

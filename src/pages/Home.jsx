@@ -91,7 +91,7 @@ export default function Home() {
                 </span>
                 <span className="ml-3 text-3xl">🎎</span>
               </h1>
-              <p className="mt-4 text-base text-ink-500 leading-relaxed max-w-lg">
+              <p className="mt-4 text-2xl leading-relaxed max-w-lg font-['Angel'] text-[#d98079]">
                 Dive into the heart of South Korea. Explore traditions, modern
                 lifestyle, and everything in between.
               </p>

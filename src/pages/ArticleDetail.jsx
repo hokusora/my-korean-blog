@@ -7,8 +7,10 @@ import { getArticleBySlug } from "../services/contentful";
 // ── Rich text render options — UNCHANGED ──
 const renderOptions = {
   renderNode: {
+    // Paragraph
     [BLOCKS.PARAGRAPH]: (node, children) => (
-      <p className="mb-6 text-ink-700 leading-[1.85] text-[1.0625rem]">
+      <p className="mb-6 leading-[1.85] text-[1.0625rem] text-[#d98079] font-['Angel']">
+        {/* đã đổi màu hex #d98079 và thêm font Angel */}
         {children}
       </p>
     ),
@@ -169,7 +171,7 @@ const ArticleDetail = () => {
           {tags && tags.length > 0 && (
             <span className="text-ink-300 text-xs mx-1">·</span>
           )}
-          <time className="text-ink-500 text-xs font-medium tracking-wide">
+          <time className="text-mint-600 text-xs font-medium tracking-wide">
             {new Date(date || article.sys.createdAt).toLocaleDateString(
               "en-US",
               {
@@ -183,8 +185,9 @@ const ArticleDetail = () => {
 
         {/* Title — large serif */}
         <h1
-          className="font-serif text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]
-                     font-bold text-ink-900 tracking-tight leading-[1.15] mb-0"
+          // Đã cấu hình sang màu hex #5f4ff0 và font Monday
+          className="font-['Monday'] text-[2rem] md:text-[2.75rem] lg:text-[3.25rem]
+           font-bold text-[#5f4ff0] tracking-tight leading-[1.15] mb-0"
         >
           {title}
         </h1>

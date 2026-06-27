@@ -39,11 +39,15 @@ export default {
           100: "#F1F5F9", // Ghost backgrounds
         },
       },
+
+      // ── Font families — tên khớp với @font-face trong index.css ──
       fontFamily: {
-        serif: ["'Playfair Display'", "Georgia", "serif"],
-        sans: ["'DM Sans'", "Inter", "system-ui", "sans-serif"],
+        serif: ["Angel", "Georgia", "serif"], // titles, headings
+        sans: ["HakgyoNal", "system-ui", "sans-serif"], // body, UI
+        monday: ["Monday", "sans-serif"], // dùng bằng class font-monday
         mono: ["'JetBrains Mono'", "monospace"],
       },
+
       fontSize: {
         "display-xl": [
           "clamp(2.5rem, 5vw, 4rem)",

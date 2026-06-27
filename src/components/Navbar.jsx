@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getCategories } from "../services/contentful";
@@ -34,79 +35,59 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* ── Desktop Nav Links: fetch động từ Contentful, giữ dropdown logic ── */}
+          {/* ── Desktop Navigation Links — Đã thêm font HakgyoNal và màu hex #e46e7a ── */}
           <div className="hidden md:flex items-center gap-8">
             {categories.map((cat) => {
               const slug = cat.fields.slug;
               const title = cat.fields.title;
-              const isActive = location.pathname === `/category/${slug}`;
-
               return (
-                <div
+                <Link
                   key={cat.sys.id}
-                  className="relative group cursor-pointer py-5"
-                  onMouseEnter={() => setActiveDropdown(slug)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  to={`/category/${slug}`}
+                  className="text-sm font-medium transition-colors hover:text-mint-600 font-['HakgyoNal'] text-[#e46e7a]"
                 >
-                  <Link
-                    to={`/category/${slug}`}
-                    className={`text-[0.875rem] font-medium transition-colors duration-200 underline-grow py-1
-                      ${
-                        isActive
-                          ? "text-mint-600 font-semibold"
-                          : "text-ink-500 hover:text-ink-900"
-                      }`}
-                  >
-                    {title}
-                  </Link>
-                  {/* Dropdown con — chỉ có 1 link "All {title}" vì subcategory quản lý trên Contentful */}
-                  <div
-                    className={`absolute top-full left-1/2 -translate-x-1/2 w-48 bg-cream border border-ink-300/40 rounded-lg shadow-xl py-2 mt-0 transition-all duration-200 origin-top ${
-                      activeDropdown === slug
-                        ? "opacity-100 visible translate-y-0 scale-100"
-                        : "opacity-0 invisible -translate-y-2 scale-95"
-                    }`}
-                  >
-                    <Link
-                      to={`/category/${slug}`}
-                      className="block px-4 py-2 text-sm text-ink-700 hover:bg-cream-dark hover:text-ink-900 transition-colors"
-                    >
-                      All {title}
-                    </Link>
-                  </div>
-                </div>
+                  {title}
+                </Link>
               );
             })}
           </div>
 
           {/* ── Mobile Menu Toggle Button ── */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden flex flex-col justify-center items-center w-8 h-8 text-ink-900 z-50 focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-5 h-[1.5px] bg-current transition-all duration-300 ${
-                isOpen ? "rotate-45 translate-y-[6.5px]" : ""
-              }`}
-            />
-            <span
-              className={`block w-5 h-[1.5px] bg-current transition-opacity duration-300 my-1.5 ${
-                isOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-5 h-[1.5px] bg-current transition-all duration-300 ${
-                isOpen ? "-rotate-45 -translate-y-[6.5px]" : ""
-              }`}
-            />
-          </button>
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-ink-900 hover:text-mint-600 focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {isOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* ── Mobile Menu Dropdown: accordion logic giữ nguyên, data từ Contentful ── */}
+      {/* ── Mobile Dropdown Menu — Đã áp dụng font HakgyoNal và màu hex #e46e7a cho tiêu đề ── */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
           isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -119,7 +100,7 @@ export default function Navbar() {
               <div key={cat.sys.id}>
                 <button
                   onClick={() => toggleDropdown(slug)}
-                  className="w-full text-left text-sm font-medium text-ink-700 hover:text-mint-600 py-2 flex justify-between items-center"
+                  className="w-full text-left text-sm font-medium py-2 flex justify-between items-center font-['HakgyoNal'] text-[#e46e7a] hover:text-mint-600"
                 >
                   <span>{title}</span>
                   <span className="text-xs">
