@@ -63,6 +63,87 @@ const renderOptions = {
   },
 };
 
+// 🛠️ BỘ LỌC THÔNG MINH TỰ ĐỘNG NHẬN DIỆN FILE S3
+const S3MediaViewer = ({ url }) => {
+  if (!url) return null;
+
+  // 1. Lấy đuôi file từ URL (ví dụ: mp4, pdf, png)
+  const extension = url.split(".").pop().toLowerCase();
+
+  // 2. Phân loại các nhóm đuôi file
+  const imageExts = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+  const videoExts = ["mp4", "webm", "mov"];
+  const audioExts = ["mp3", "wav", "ogg"];
+  const pdfExt = ["pdf"];
+
+  // 3. Tự động trả về thẻ HTML tương ứng với loại file
+  if (imageExts.includes(extension)) {
+    return (
+      <img
+        src={url}
+        alt="Minh họa đính kèm"
+        className="w-full h-auto rounded-xl shadow-md my-6"
+      />
+    );
+  }
+
+  if (videoExts.includes(extension)) {
+    return (
+      <video
+        controls
+        className="w-full h-auto rounded-xl shadow-md my-6 bg-black"
+      >
+        <source
+          src={url}
+          type={`video/${extension === "mov" ? "mp4" : extension}`}
+        />
+        Trình duyệt của bồ không hỗ trợ xem video.
+      </video>
+    );
+  }
+
+  if (audioExts.includes(extension)) {
+    return (
+      <div className="my-6 p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+        <p className="text-sm text-ink-600 font-semibold mb-2 flex items-center gap-2">
+          🎧 File âm thanh đính kèm
+        </p>
+        <audio controls className="w-full">
+          <source
+            src={url}
+            type={`audio/${extension === "mp3" ? "mpeg" : extension}`}
+          />
+          Trình duyệt của bồ không hỗ trợ nghe audio.
+        </audio>
+      </div>
+    );
+  }
+
+  if (pdfExt.includes(extension)) {
+    return (
+      <iframe
+        src={url}
+        className="w-full h-[600px] my-6 rounded-lg shadow-sm border border-gray-200"
+        title="PDF Viewer"
+      ></iframe>
+    );
+  }
+
+  // 4. Mặc định (Dành cho file code, zip, docx...): Tự động biến thành NÚT TẢI XUỐNG
+  return (
+    <div className="my-6">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-5 py-2.5 bg-mint-600 hover:bg-mint-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm"
+      >
+        <span>📁 Nhấn để xem / Tải xuống tệp đính kèm (.{extension})</span>
+      </a>
+    </div>
+  );
+};
+
 const ArticleDetail = () => {
   // ── slug lấy từ URL /:categorySlug/:slug ──
   const { slug, categorySlug } = useParams();
@@ -206,6 +287,10 @@ const ArticleDetail = () => {
 
       {/* ── Thin rule before body — UNCHANGED ── */}
       <div className="border-t border-ink-300/50 mb-12" />
+
+      {/* Chỗ này kiểm tra xem bài viết có gắn link s3Url không, nếu có thì nhét vào cỗ máy S3MediaViewer */}
+
+      {article.fields.s3Url && <S3MediaViewer url={article.fields.s3Url} />}
 
       {/* ── Rich text body — UNCHANGED ── */}
       <div className="article-body">
