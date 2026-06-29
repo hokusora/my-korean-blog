@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 // Rotate through badge variants for visual rhythm
 const BADGE_VARIANTS = ["badge-mint", "badge-blush", "badge-neutral"];
 
-export default function PostCard({ article, index = 0 }) {
+export default function PostCard({ article, index = 0, theme = {} }) {
   // ── Original data extraction — UNCHANGED ──
   const { title, slug, excerpt, coverImage, tags } = article.fields;
 
@@ -28,6 +28,7 @@ export default function PostCard({ article, index = 0 }) {
 
   // Pick badge colour by card index for visual variety
   const badgeClass = BADGE_VARIANTS[index % BADGE_VARIANTS.length];
+  const badgeStyle = theme.badgeStyle || null;
 
   // ── URL: /:categorySlug/:slug nếu có category, fallback /post/:slug ──
   const articleUrl = categorySlug
@@ -49,28 +50,57 @@ export default function PostCard({ article, index = 0 }) {
       )}
 
       {/* ── Category badge ── */}
-      <div className="mb-3">
+     <div className="mb-3">
         {categorySlug ? (
           <Link
             to={`/category/${categorySlug}`}
-            className={`${badgeClass} hover:opacity-75 transition-opacity duration-200`}
+            className={`${badgeStyle ? "" : badgeClass} hover:opacity-75 transition-opacity duration-200`}
+            style={badgeStyle ? {
+              ...badgeStyle,
+              display: "inline-block",
+              padding: "2px 10px",
+              borderRadius: "9999px",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            } : {}}
             onClick={(e) => e.stopPropagation()}
           >
             {categoryName}
           </Link>
         ) : (
-          <span className={badgeClass}>{categoryName}</span>
+          <span
+            className={`${badgeStyle ? "" : badgeClass}`}
+            style={badgeStyle ? {
+              ...badgeStyle,
+              display: "inline-block",
+              padding: "2px 10px",
+              borderRadius: "9999px",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            } : {}}
+          >
+            {categoryName}
+          </span>
         )}
       </div>
 
       {/* ── Title (serif) ── */}
-      <h2  className="font-['MomoSignature'] text-[18px] md:text-[24px] font-bold text-[#9370db] leading-snug mb-3
-               group-hover:text-mint-600 transition-colors duration-300">
+      <h2
+        className="font-['MomoSignature'] text-[18px] md:text-[24px] font-bold leading-snug mb-3 transition-colors duration-300"
+        style={{ color: theme.cardTitleColor || "#9370db" }}
+      >
         {title}
       </h2>
 
       {/* ── Excerpt ── */}
-      <p className="font-['Angel']  text-[12px] md:text-[14px] text-[#191970] ">
+      <p
+        className="font-['Angel'] text-[12px] md:text-[14px]"
+        style={{ color: theme.cardExcerptColor || "#191970" }}
+      >
         {excerpt}
       </p>
 

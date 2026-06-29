@@ -30,14 +30,20 @@ function App() {
               <main className="flex-grow container mx-auto px-5 sm:px-8 py-10 max-w-5xl">
                 <ArticleDetail />
               </main>
-              <footer className="border-t border-ink-300/50 bg-cream-dark">
+              <footer
+                className="border-t border-white/10"
+                style={{
+                  background: "rgba(175, 116, 116, 0.13)",
+                  backdropFilter: "blur(24px) saturate(160%)",
+                  WebkitBackdropFilter: "blur(24px) saturate(160%)",
+                }}
+              >
                 <div
                   className="max-w-5xl mx-auto px-5 sm:px-8 py-8
                                 flex flex-col sm:flex-row justify-between items-center gap-4"
                 >
                   <p className="text-xs text-ink-500">
-                    © {new Date().getFullYear()} Hoku Sol. Crafted
-                    with care.
+                    © {new Date().getFullYear()} Hoku Sol. Crafted with care.
                   </p>
                   <div className="flex gap-5 text-xs text-ink-500">
                     <a

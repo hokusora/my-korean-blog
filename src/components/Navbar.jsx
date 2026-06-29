@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getCategories } from "../services/contentful";
 
-export default function Navbar() {
+export default function Navbar({ theme = {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -24,18 +24,28 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-cream/90 backdrop-blur-md border-b border-ink-300/40 sticky top-0 z-50">
+    <nav
+      className="sticky top-0 z-50 border-b border-white/10"
+      style={{
+        background: "rgba(181, 175, 190, 0.46)",
+        backdropFilter: "blur(20px) saturate(180%)",
+        WebkitBackdropFilter: "blur(20px) saturate(180%)",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-[68px]">
           {/* ── Logo ── */}
           <Link to="/" className="flex items-center gap-2 group">
             <span className="w-2 h-2 rounded-full bg-mint-500 group-hover:scale-125 transition-transform duration-300" />
-            <span className="font-serif text-[1.35rem] font-bold text-ink-900 tracking-tight">
+            <span
+              className="font-serif text-[1.35rem] font-bold tracking-tight"
+              style={{ color: theme.navLogoColor || "#d3602b" }}
+            >
               Hoku Sol
             </span>
           </Link>
 
-          {/* ── Desktop Navigation Links — Đã thêm font HakgyoNal và màu hex #e46e7a ── */}
+          {/* ── Desktop Navigation Links — Đã thêm font HakgyoNal và màu hex #cb5a65 ── */}
           <div className="hidden md:flex items-center gap-8">
             {categories.map((cat) => {
               const slug = cat.fields.slug;
@@ -44,7 +54,16 @@ export default function Navbar() {
                 <Link
                   key={cat.sys.id}
                   to={`/category/${slug}`}
-                  className="text-[24px] font-medium transition-colors hover:text-[#7b6dff] font-['HakgyoNal'] text-[#e46e7a]"
+                  className="text-[24px] font-medium font-['HakgyoNal'] transition-colors"
+                  style={{ color: theme.navLinkColor || "#e46e7a" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color =
+                      theme.navLinkHover || "#7b6dff")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color =
+                      theme.navLinkColor || "#e46e7a")
+                  }
                 >
                   {title}
                 </Link>
@@ -56,7 +75,8 @@ export default function Navbar() {
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-ink-900 hover:text-mint-600 focus:outline-none"
+              className="hover:opacity-70 focus:outline-none transition-opacity"
+              style={{ color: theme.navLogoColor || "#1a1a2e" }}
             >
               <svg
                 className="h-6 w-6"
